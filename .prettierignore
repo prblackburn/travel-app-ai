@@ -1,0 +1,24 @@
+# Dependencies
+node_modules
+
+# Build outputs
+build
+dist
+.cache
+
+# Environment and config files
+.env*
+*.log
+
+# Generated files
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# SQLite database files
+*.db
+*.sqlite
+
+# Editor directories
+.vscode
+.idea

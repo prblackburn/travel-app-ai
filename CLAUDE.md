@@ -43,7 +43,7 @@ import type { Trip, CreateTripData } from '~/shared/types/index.js';
 - **Hooks**: `camelCase` with `use` prefix - `useTrips()`, `useErrorHandler()`
 - **Types/Interfaces**: `PascalCase` - `Trip`, `PackingItem`, `ApiResponse<T>`
 - **Constants**: `SCREAMING_SNAKE_CASE` - `MAX_TRIP_DURATION`, `DEFAULT_CATEGORIES`
-- **Files**: 
+- **Files**:
   - Components: `PascalCase.tsx` - `TripCard.tsx`
   - Utilities: `camelCase.ts` - `dateUtils.ts`
   - CSS Modules: `kebab-case.module.css` - `trip-card.module.css`
@@ -119,8 +119,9 @@ Key directories and their purpose:
 Before submitting any code, ensure the following steps are completed:
 
 1. **Run all lint and check commands**
+
    ```bash
-   pnpm lint && pnpm typecheck
+   pnpm lint && pnpm typecheck && pnpm format:check
    ```
 
 2. **Review outputs and iterate until all issues are resolved**

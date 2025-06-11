@@ -3,21 +3,25 @@
 ## Technology Stack
 
 ### Frontend & Backend
+
 - **Framework**: Remix (TypeScript)
 - **Runtime**: Node.js
 - **Package Manager**: pnpm
 
 ### Database & ORM
+
 - **Database**: SQLite
 - **ORM**: Drizzle ORM
 - **Migrations**: Drizzle migrations
 
 ### Styling & UI
+
 - **Styling**: CSS Modules
 - **Icons**: Lucide React (or similar)
 - **Forms**: Remix built-in form handling
 
 ### Development Tools
+
 - **Linting**: ESLint (strict mode)
 - **Formatting**: Prettier
 - **Type Checking**: TypeScript strict mode
@@ -161,6 +165,7 @@ CREATE TABLE packing_items (
 ### RESTful Endpoints
 
 **Trips**
+
 - `GET /api/trips` - List all trips
 - `POST /api/trips` - Create new trip
 - `GET /api/trips/:id` - Get trip details
@@ -168,18 +173,21 @@ CREATE TABLE packing_items (
 - `DELETE /api/trips/:id` - Delete trip
 
 **Activities**
+
 - `GET /api/trips/:tripId/activities` - List trip activities
 - `POST /api/trips/:tripId/activities` - Create activity
 - `PUT /api/activities/:id` - Update activity
 - `DELETE /api/activities/:id` - Delete activity
 
 **Packing Lists**
+
 - `GET /api/trips/:tripId/packing-lists` - List packing lists
 - `POST /api/trips/:tripId/packing-lists` - Create packing list
 - `PUT /api/packing-lists/:id` - Update packing list
 - `DELETE /api/packing-lists/:id` - Delete packing list
 
 **Packing Items**
+
 - `GET /api/packing-lists/:listId/items` - List items
 - `POST /api/packing-lists/:listId/items` - Create item
 - `PUT /api/packing-items/:id` - Update item
@@ -195,14 +203,14 @@ export async function loader({ params }: LoaderFunctionArgs) {
   const trip = await getTripById(params.tripId);
   const activities = await getActivitiesByTripId(params.tripId);
   const packingLists = await getPackingListsByTripId(params.tripId);
-  
+
   return json({ trip, activities, packingLists });
 }
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const formData = await request.formData();
   const intent = formData.get('intent');
-  
+
   switch (intent) {
     case 'update-trip':
       return await updateTrip(params.tripId, formData);
@@ -220,21 +228,27 @@ export async function action({ request, params }: ActionFunctionArgs) {
 // Example: useTrips hook
 export function useTrips() {
   const fetcher = useFetcher<TripsData>();
-  
-  const createTrip = useCallback((tripData: CreateTripData) => {
-    fetcher.submit(tripData, { method: 'POST', action: '/api/trips' });
-  }, [fetcher]);
-  
-  const updateTrip = useCallback((id: string, tripData: UpdateTripData) => {
-    fetcher.submit(tripData, { method: 'PUT', action: `/api/trips/${id}` });
-  }, [fetcher]);
-  
+
+  const createTrip = useCallback(
+    (tripData: CreateTripData) => {
+      fetcher.submit(tripData, { method: 'POST', action: '/api/trips' });
+    },
+    [fetcher]
+  );
+
+  const updateTrip = useCallback(
+    (id: string, tripData: UpdateTripData) => {
+      fetcher.submit(tripData, { method: 'PUT', action: `/api/trips/${id}` });
+    },
+    [fetcher]
+  );
+
   return {
     trips: fetcher.data?.trips ?? [],
     isLoading: fetcher.state !== 'idle',
     error: fetcher.data?.error,
     createTrip,
-    updateTrip
+    updateTrip,
   };
 }
 ```
@@ -254,7 +268,7 @@ interface TripCardProps {
 export function TripCard({ trip, onEdit, onDelete }: TripCardProps): JSX.Element {
   const handleEdit = useCallback(() => onEdit(trip), [trip, onEdit]);
   const handleDelete = useCallback(() => onDelete(trip.id), [trip.id, onDelete]);
-  
+
   return (
     <div className={styles.tripCard}>
       {/* Component JSX */}
@@ -305,12 +319,14 @@ export async function createTrip(tripData: CreateTripData): Promise<Trip> {
 ## Performance Considerations
 
 ### Optimization Strategies
+
 - **Database Indexing**: Index frequently queried fields (trip_id, dates)
 - **Lazy Loading**: Load activities and packing lists only when needed
 - **Memoization**: Use React.memo for expensive components
 - **Bundle Splitting**: Remix automatic code splitting by route
 
 ### Caching Strategy
+
 - **Server-side**: Remix loader caching
 - **Client-side**: SWR-like patterns with useFetcher
 - **Database**: SQLite query optimization
@@ -318,23 +334,26 @@ export async function createTrip(tripData: CreateTripData): Promise<Trip> {
 ## Security Considerations
 
 ### Data Validation
+
 - Server-side validation for all inputs
 - TypeScript types for compile-time safety
 - Sanitization of user inputs
 
 ### SQL Injection Prevention
+
 - Drizzle ORM parameterized queries
 - No raw SQL string concatenation
-
 
 ## Deployment Architecture
 
 ### Development Environment
+
 - SQLite database file
 - Local Remix dev server
 - Hot module replacement
 
 ### Production Considerations
+
 - SQLite with WAL mode for better concurrency
 - Process management (PM2 or similar)
 - Static asset optimization
@@ -343,6 +362,7 @@ export async function createTrip(tripData: CreateTripData): Promise<Trip> {
 ## Future Scalability
 
 ### Potential Enhancements
+
 - **Database**: Migration to PostgreSQL for multi-user support
 - **Caching**: Redis for session management
 - **File Storage**: S3 for photo attachments
