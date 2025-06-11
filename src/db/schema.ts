@@ -47,4 +47,3 @@ export const activities = sqliteTable(
     dateIdx: index('activities_date_idx').on(table.date),
   })
 );
-

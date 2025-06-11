@@ -20,7 +20,6 @@ interface ActivityData {
   notes?: string;
 }
 
-
 function seedDatabase(): void {
   try {
     console.log('Generating seed data SQL...');
@@ -188,7 +187,6 @@ function seedDatabase(): void {
       sql += `INSERT INTO activities (id, trip_id, name, date, time, location, notes) VALUES ('${activity.id}', '${activity.tripId}', '${activity.name.replace(/'/g, "''")}', '${activity.date}', ${time}, ${location}, ${notes});\n`;
     }
     sql += '\n';
-
 
     // Write SQL file
     const sqlFilePath = 'src/db/seed.sql';

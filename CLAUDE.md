@@ -166,6 +166,8 @@ Before submitting any code, ensure the following steps are completed:
   # pnpm db:seed handles: generate SQL → apply migration → insert seed data
   ```
 - **Stack Validation**: Use /debug route to verify database connection and data integrity
+- **Button Component**: Uses `any` type for `as` prop to support Remix Link component compatibility
+- **Type Safety**: Description fields use `string | null` to match database schema vs TypeScript `undefined`
 
 ## References
 

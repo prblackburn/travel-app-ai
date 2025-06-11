@@ -1,38 +1,32 @@
-// Core Entity Types
-// Exactly matching database schema from src/db/schema.ts and seed data
-
 export interface Trip {
   id: string;
   name: string;
   destination: string;
-  startDate: string; // YYYY-MM-DD format matching database
-  endDate: string; // YYYY-MM-DD format matching database
-  description?: string;
-  createdAt: string; // ISO datetime string from CURRENT_TIMESTAMP
-  updatedAt: string; // ISO datetime string from CURRENT_TIMESTAMP
+  startDate: string;
+  endDate: string;
+  description: string | null;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Activity {
   id: string;
   tripId: string;
   name: string;
-  date: string; // YYYY-MM-DD format matching database
-  time?: string; // HH:MM format optional
-  location?: string;
-  notes?: string;
-  createdAt: string; // ISO datetime string from CURRENT_TIMESTAMP
-  updatedAt: string; // ISO datetime string from CURRENT_TIMESTAMP
+  date: string;
+  time?: string | null;
+  location?: string | null;
+  notes?: string | null;
+  createdAt: string;
+  updatedAt: string;
 }
-
-
-// Form Data Types (for create/update operations)
 
 export interface CreateTripData {
   name: string;
   destination: string;
   startDate: string;
   endDate: string;
-  description?: string;
+  description?: string | null;
 }
 
 export interface UpdateTripData {
@@ -40,7 +34,7 @@ export interface UpdateTripData {
   destination?: string;
   startDate?: string;
   endDate?: string;
-  description?: string;
+  description?: string | null;
 }
 
 export interface CreateActivityData {
@@ -60,9 +54,6 @@ export interface UpdateActivityData {
   notes?: string;
 }
 
-
-// API Response Types
-
 export interface ApiResponse<T> {
   data?: T;
   error?: AppError;
@@ -81,8 +72,6 @@ export interface AppError {
   details?: unknown;
 }
 
-// Utility Types
-
 export interface ValidationError {
   field: string;
   message: string;
@@ -95,13 +84,9 @@ export interface FormState<T> {
   isValid: boolean;
 }
 
-// Extended Entity Types (with relationships)
-
 export interface TripWithRelations extends Trip {
   activities?: Activity[];
 }
-
-// Search and Filter Types
 
 export interface TripFilters {
   destination?: string;
@@ -119,10 +104,6 @@ export interface ActivityFilters {
   sortOrder?: 'asc' | 'desc';
 }
 
-
-
-// Time and Date Utilities Types
-
 export interface DateRange {
   start: string;
   end: string;
@@ -133,8 +114,6 @@ export interface TimeSlot {
   isAvailable: boolean;
   conflictingActivity?: Activity;
 }
-
-// Hook Return Types (for custom hooks)
 
 export interface UseTripsReturn {
   trips: Trip[];
@@ -156,9 +135,6 @@ export interface UseActivitiesReturn {
   refreshActivities: () => Promise<void>;
 }
 
-
-// Component Props Types
-
 export interface TripCardProps {
   trip: Trip;
   onEdit: (trip: Trip) => void;
@@ -173,15 +149,12 @@ export interface ActivityCardProps {
   showConflicts?: boolean;
 }
 
-
 export interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
   children: React.ReactNode;
 }
-
-// Form Component Props
 
 export interface TripFormProps {
   trip?: Trip;

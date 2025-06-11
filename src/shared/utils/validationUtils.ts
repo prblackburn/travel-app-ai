@@ -1,8 +1,3 @@
-/**
- * Validation utility functions for form validation and business rules
- * Provides reusable validation logic used across features
- */
-
 import {
   isValidDateString,
   isValidTimeString,
@@ -17,19 +12,12 @@ import type {
   UpdateTripData,
   CreateActivityData,
   UpdateActivityData,
-  CreatePackingListData,
-  UpdatePackingListData,
-  CreatePackingItemData,
-  UpdatePackingItemData,
   ValidationError,
   DateRange,
   Trip,
   Activity,
 } from '../types/index.js';
 
-/**
- * Validates required string fields
- */
 export function validateRequiredString(
   value: string | undefined,
   fieldName: string
@@ -40,9 +28,6 @@ export function validateRequiredString(
   return null;
 }
 
-/**
- * Validates string length constraints
- */
 export function validateStringLength(
   value: string | undefined,
   fieldName: string,
@@ -68,9 +53,6 @@ export function validateStringLength(
   return null;
 }
 
-/**
- * Validates positive integer values
- */
 export function validatePositiveInteger(
   value: number | undefined,
   fieldName: string
@@ -84,30 +66,24 @@ export function validatePositiveInteger(
   return null;
 }
 
-/**
- * Validates trip creation data
- */
 export function validateCreateTripData(data: CreateTripData): ValidationError[] {
   const errors: ValidationError[] = [];
 
-  // Required fields
   const nameError = validateRequiredString(data.name, 'name');
   if (nameError) errors.push(nameError);
 
   const destinationError = validateRequiredString(data.destination, 'destination');
   if (destinationError) errors.push(destinationError);
 
-  // String length validation
   const nameLengthError = validateStringLength(data.name, 'name', 1, 100);
   if (nameLengthError) errors.push(nameLengthError);
 
   const destinationLengthError = validateStringLength(data.destination, 'destination', 1, 100);
   if (destinationLengthError) errors.push(destinationLengthError);
 
-  const descriptionLengthError = validateStringLength(data.description, 'description', 0, 1000);
+  const descriptionLengthError = validateStringLength(data.description ?? undefined, 'description', 0, 1000);
   if (descriptionLengthError) errors.push(descriptionLengthError);
 
-  // Date validation
   if (!isValidDateString(data.startDate)) {
     errors.push(createValidationError('startDate', 'Start date must be in YYYY-MM-DD format'));
   }
@@ -116,7 +92,6 @@ export function validateCreateTripData(data: CreateTripData): ValidationError[] 
     errors.push(createValidationError('endDate', 'End date must be in YYYY-MM-DD format'));
   }
 
-  // Date range validation
   if (isValidDateString(data.startDate) && isValidDateString(data.endDate)) {
     if (!isValidDateRange(data.startDate, data.endDate)) {
       errors.push(createValidationError('endDate', 'End date must be after start date'));
@@ -126,13 +101,9 @@ export function validateCreateTripData(data: CreateTripData): ValidationError[] 
   return errors;
 }
 
-/**
- * Validates trip update data
- */
 export function validateUpdateTripData(data: UpdateTripData): ValidationError[] {
   const errors: ValidationError[] = [];
 
-  // Only validate provided fields
   if (data.name !== undefined) {
     const nameError = validateRequiredString(data.name, 'name');
     if (nameError) errors.push(nameError);
@@ -150,11 +121,10 @@ export function validateUpdateTripData(data: UpdateTripData): ValidationError[] 
   }
 
   if (data.description !== undefined) {
-    const descriptionLengthError = validateStringLength(data.description, 'description', 0, 1000);
+    const descriptionLengthError = validateStringLength(data.description ?? undefined, 'description', 0, 1000);
     if (descriptionLengthError) errors.push(descriptionLengthError);
   }
 
-  // Date validation
   if (data.startDate !== undefined && !isValidDateString(data.startDate)) {
     errors.push(createValidationError('startDate', 'Start date must be in YYYY-MM-DD format'));
   }
@@ -163,7 +133,6 @@ export function validateUpdateTripData(data: UpdateTripData): ValidationError[] 
     errors.push(createValidationError('endDate', 'End date must be in YYYY-MM-DD format'));
   }
 
-  // Date range validation (if both dates are provided)
   if (data.startDate && data.endDate) {
     if (!isValidDateRange(data.startDate, data.endDate)) {
       errors.push(createValidationError('endDate', 'End date must be after start date'));
@@ -173,37 +142,30 @@ export function validateUpdateTripData(data: UpdateTripData): ValidationError[] 
   return errors;
 }
 
-/**
- * Validates activity creation data
- */
 export function validateCreateActivityData(
   data: CreateActivityData,
   tripDateRange: DateRange
 ): ValidationError[] {
   const errors: ValidationError[] = [];
 
-  // Required fields
   const nameError = validateRequiredString(data.name, 'name');
   if (nameError) errors.push(nameError);
 
   const nameLengthError = validateStringLength(data.name, 'name', 1, 100);
   if (nameLengthError) errors.push(nameLengthError);
 
-  // Optional field length validation
   const locationLengthError = validateStringLength(data.location, 'location', 0, 100);
   if (locationLengthError) errors.push(locationLengthError);
 
   const notesLengthError = validateStringLength(data.notes, 'notes', 0, 1000);
   if (notesLengthError) errors.push(notesLengthError);
 
-  // Date validation
   if (!isValidDateString(data.date)) {
     errors.push(createValidationError('date', 'Date must be in YYYY-MM-DD format'));
   } else if (!isDateInRange(data.date, tripDateRange)) {
     errors.push(createValidationError('date', 'Activity date must be within trip date range'));
   }
 
-  // Time validation (optional)
   if (data.time && !isValidTimeString(data.time)) {
     errors.push(createValidationError('time', 'Time must be in HH:MM format'));
   }
@@ -211,16 +173,12 @@ export function validateCreateActivityData(
   return errors;
 }
 
-/**
- * Validates activity update data
- */
 export function validateUpdateActivityData(
   data: UpdateActivityData,
   tripDateRange: DateRange
 ): ValidationError[] {
   const errors: ValidationError[] = [];
 
-  // Only validate provided fields
   if (data.name !== undefined) {
     const nameError = validateRequiredString(data.name, 'name');
     if (nameError) errors.push(nameError);
@@ -239,7 +197,6 @@ export function validateUpdateActivityData(
     if (notesLengthError) errors.push(notesLengthError);
   }
 
-  // Date validation
   if (data.date !== undefined) {
     if (!isValidDateString(data.date)) {
       errors.push(createValidationError('date', 'Date must be in YYYY-MM-DD format'));
@@ -248,7 +205,6 @@ export function validateUpdateActivityData(
     }
   }
 
-  // Time validation
   if (data.time !== undefined && !isValidTimeString(data.time)) {
     errors.push(createValidationError('time', 'Time must be in HH:MM format'));
   }
@@ -256,91 +212,6 @@ export function validateUpdateActivityData(
   return errors;
 }
 
-/**
- * Validates packing list creation data
- */
-export function validateCreatePackingListData(data: CreatePackingListData): ValidationError[] {
-  const errors: ValidationError[] = [];
-
-  const nameError = validateRequiredString(data.name, 'name');
-  if (nameError) errors.push(nameError);
-
-  const nameLengthError = validateStringLength(data.name, 'name', 1, 100);
-  if (nameLengthError) errors.push(nameLengthError);
-
-  return errors;
-}
-
-/**
- * Validates packing list update data
- */
-export function validateUpdatePackingListData(data: UpdatePackingListData): ValidationError[] {
-  const errors: ValidationError[] = [];
-
-  if (data.name !== undefined) {
-    const nameError = validateRequiredString(data.name, 'name');
-    if (nameError) errors.push(nameError);
-
-    const nameLengthError = validateStringLength(data.name, 'name', 1, 100);
-    if (nameLengthError) errors.push(nameLengthError);
-  }
-
-  return errors;
-}
-
-/**
- * Validates packing item creation data
- */
-export function validateCreatePackingItemData(data: CreatePackingItemData): ValidationError[] {
-  const errors: ValidationError[] = [];
-
-  const nameError = validateRequiredString(data.name, 'name');
-  if (nameError) errors.push(nameError);
-
-  const nameLengthError = validateStringLength(data.name, 'name', 1, 100);
-  if (nameLengthError) errors.push(nameLengthError);
-
-  const categoryLengthError = validateStringLength(data.category, 'category', 0, 50);
-  if (categoryLengthError) errors.push(categoryLengthError);
-
-  if (data.quantity !== undefined) {
-    const quantityError = validatePositiveInteger(data.quantity, 'quantity');
-    if (quantityError) errors.push(quantityError);
-  }
-
-  return errors;
-}
-
-/**
- * Validates packing item update data
- */
-export function validateUpdatePackingItemData(data: UpdatePackingItemData): ValidationError[] {
-  const errors: ValidationError[] = [];
-
-  if (data.name !== undefined) {
-    const nameError = validateRequiredString(data.name, 'name');
-    if (nameError) errors.push(nameError);
-
-    const nameLengthError = validateStringLength(data.name, 'name', 1, 100);
-    if (nameLengthError) errors.push(nameLengthError);
-  }
-
-  if (data.category !== undefined) {
-    const categoryLengthError = validateStringLength(data.category, 'category', 0, 50);
-    if (categoryLengthError) errors.push(categoryLengthError);
-  }
-
-  if (data.quantity !== undefined) {
-    const quantityError = validatePositiveInteger(data.quantity, 'quantity');
-    if (quantityError) errors.push(quantityError);
-  }
-
-  return errors;
-}
-
-/**
- * Validates business rule: activity times don't conflict
- */
 export function validateActivityTimeConflict(
   newActivity: CreateActivityData | UpdateActivityData,
   existingActivities: Activity[],
@@ -349,10 +220,7 @@ export function validateActivityTimeConflict(
   if (!newActivity.time || !newActivity.date) return null;
 
   const conflicts = existingActivities.filter(activity => {
-    // Skip the activity being updated
     if (excludeActivityId && activity.id === excludeActivityId) return false;
-
-    // Check for same date and time
     return activity.date === newActivity.date && activity.time === newActivity.time;
   });
 
@@ -366,9 +234,6 @@ export function validateActivityTimeConflict(
   return null;
 }
 
-/**
- * Validates business rule: trip name uniqueness
- */
 export function validateTripNameUniqueness(
   name: string,
   existingTrips: Trip[],
@@ -377,9 +242,7 @@ export function validateTripNameUniqueness(
   const trimmedName = name.trim().toLowerCase();
 
   const conflicts = existingTrips.filter(trip => {
-    // Skip the trip being updated
     if (excludeTripId && trip.id === excludeTripId) return false;
-
     return trip.name.trim().toLowerCase() === trimmedName;
   });
 
@@ -390,9 +253,6 @@ export function validateTripNameUniqueness(
   return null;
 }
 
-/**
- * Validates business rule: no past trip dates for new trips
- */
 export function validateFutureTripDates(
   startDate: string,
   allowPastDates = false
@@ -406,9 +266,6 @@ export function validateFutureTripDates(
   return null;
 }
 
-/**
- * Validates email format (for future use)
- */
 export function validateEmail(email: string): ValidationError | null {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -419,9 +276,6 @@ export function validateEmail(email: string): ValidationError | null {
   return null;
 }
 
-/**
- * Validates URL format (for future use)
- */
 export function validateUrl(url: string): ValidationError | null {
   try {
     new URL(url);
@@ -431,9 +285,6 @@ export function validateUrl(url: string): ValidationError | null {
   }
 }
 
-/**
- * Generic validation helper that aggregates all validation errors
- */
 export function validateData<T>(
   data: T,
   validators: Array<(data: T) => ValidationError[]>
@@ -443,23 +294,14 @@ export function validateData<T>(
   }, [] as ValidationError[]);
 }
 
-/**
- * Checks if validation errors exist
- */
 export function hasValidationErrors(errors: ValidationError[]): boolean {
   return errors.length > 0;
 }
 
-/**
- * Gets validation errors for a specific field
- */
 export function getFieldErrors(errors: ValidationError[], fieldName: string): string[] {
   return errors.filter(error => error.field === fieldName).map(error => error.message);
 }
 
-/**
- * Formats validation errors for display
- */
 export function formatValidationErrors(errors: ValidationError[]): Record<string, string[]> {
   const formatted: Record<string, string[]> = {};
 
@@ -472,3 +314,4 @@ export function formatValidationErrors(errors: ValidationError[]): Record<string
 
   return formatted;
 }
+

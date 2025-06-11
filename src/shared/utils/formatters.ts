@@ -1,15 +1,7 @@
-/**
- * General formatting utilities for common data types
- * Provides consistent formatting across the application
- */
-
 import { formatDateForDisplay, formatTimeForDisplay, getDaysBetween } from './dateUtils.js';
 
-import type { PackingProgress, Trip, Activity, PackingItem } from '../types/index.js';
+import type { Trip, Activity } from '../types/index.js';
 
-/**
- * Formats a trip duration as human-readable text
- */
 export function formatTripDuration(startDate: string, endDate: string): string {
   const days = getDaysBetween(startDate, endDate);
 
@@ -22,9 +14,6 @@ export function formatTripDuration(startDate: string, endDate: string): string {
   }
 }
 
-/**
- * Formats trip dates as a range string
- */
 export function formatTripDateRange(startDate: string, endDate: string): string {
   const start = formatDateForDisplay(startDate);
   const end = formatDateForDisplay(endDate);
@@ -36,9 +25,10 @@ export function formatTripDateRange(startDate: string, endDate: string): string 
   return `${start} - ${end}`;
 }
 
-/**
- * Formats activity date and time together
- */
+export function formatDateRange(startDate: string, endDate: string): string {
+  return formatTripDateRange(startDate, endDate);
+}
+
 export function formatActivityDateTime(date: string, time?: string): string {
   const formattedDate = formatDateForDisplay(date);
 
@@ -50,20 +40,6 @@ export function formatActivityDateTime(date: string, time?: string): string {
   return formattedDate;
 }
 
-/**
- * Formats packing progress as percentage text
- */
-export function formatPackingProgress(progress: PackingProgress): string {
-  if (progress.totalItems === 0) {
-    return 'No items';
-  }
-
-  return `${progress.packedItems}/${progress.totalItems} (${progress.percentage}%)`;
-}
-
-/**
- * Formats quantity with proper singular/plural form
- */
 export function formatQuantity(quantity: number, singular: string, plural?: string): string {
   const pluralForm = plural ?? `${singular}s`;
 
@@ -74,45 +50,21 @@ export function formatQuantity(quantity: number, singular: string, plural?: stri
   return `${quantity} ${pluralForm}`;
 }
 
-/**
- * Formats packing item with quantity
- */
-export function formatPackingItemName(item: PackingItem): string {
-  if (item.quantity === 1) {
-    return item.name;
-  }
-
-  return `${item.name} (${item.quantity})`;
-}
-
-/**
- * Capitalizes the first letter of a string
- */
 export function capitalize(text: string): string {
   if (!text) return '';
   return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
 }
 
-/**
- * Formats text for display by capitalizing and trimming
- */
 export function formatDisplayText(text: string): string {
   if (!text) return '';
   return text.trim().charAt(0).toUpperCase() + text.trim().slice(1);
 }
 
-/**
- * Truncates text to a specified length with ellipsis
- */
 export function truncateText(text: string, maxLength: number): string {
   if (!text || text.length <= maxLength) return text;
   return `${text.slice(0, maxLength - 3)}...`;
 }
 
-/**
- * Formats a list of items with proper conjunction
- * Example: ["apple", "banana", "cherry"] => "apple, banana, and cherry"
- */
 export function formatList(items: string[], conjunction = 'and'): string {
   if (items.length === 0) return '';
   if (items.length === 1) return items[0];
@@ -124,20 +76,6 @@ export function formatList(items: string[], conjunction = 'and'): string {
   return `${otherItems.join(', ')}, ${conjunction} ${lastItem}`;
 }
 
-/**
- * Formats packing categories for display
- */
-export function formatPackingCategories(categories: string[]): string {
-  const uniqueCategories = [...new Set(categories)].filter(Boolean);
-
-  if (uniqueCategories.length === 0) return 'No categories';
-
-  return formatList(uniqueCategories.map(capitalize));
-}
-
-/**
- * Formats file size in human-readable format
- */
 export function formatFileSize(bytes: number): string {
   if (bytes === 0) return '0 Bytes';
 
@@ -148,9 +86,6 @@ export function formatFileSize(bytes: number): string {
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
 }
 
-/**
- * Formats a name for initials (e.g., "John Doe" => "JD")
- */
 export function formatInitials(name: string): string {
   if (!name) return '';
 
@@ -161,17 +96,11 @@ export function formatInitials(name: string): string {
     .slice(0, 2);
 }
 
-/**
- * Formats a trip summary for quick display
- */
 export function formatTripSummary(trip: Trip): string {
   const duration = formatTripDuration(trip.startDate, trip.endDate);
   return `${trip.destination} • ${duration}`;
 }
 
-/**
- * Formats activity summary for lists
- */
 export function formatActivitySummary(activity: Activity): string {
   const parts: string[] = [];
 
@@ -190,9 +119,6 @@ export function formatActivitySummary(activity: Activity): string {
   return `${activity.name} • ${parts.join(' • ')}`;
 }
 
-/**
- * Formats relative time (e.g., "2 days ago", "in 3 days")
- */
 export function formatRelativeTime(dateString: string): string {
   const date = new Date(dateString);
   const now = new Date();
@@ -218,16 +144,10 @@ export function formatRelativeTime(dateString: string): string {
   }
 }
 
-/**
- * Formats search query for display (removes extra spaces, capitalizes)
- */
 export function formatSearchQuery(query: string): string {
   return query.trim().replace(/\s+/g, ' ').toLowerCase();
 }
 
-/**
- * Formats URL slug from text (lowercase, hyphens, alphanumeric only)
- */
 export function formatSlug(text: string): string {
   return text
     .toLowerCase()
@@ -238,9 +158,6 @@ export function formatSlug(text: string): string {
     .replace(/^-|-$/g, '');
 }
 
-/**
- * Formats currency amount (placeholder for future use)
- */
 export function formatCurrency(amount: number, currency = 'USD'): string {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -248,9 +165,7 @@ export function formatCurrency(amount: number, currency = 'USD'): string {
   }).format(amount);
 }
 
-/**
- * Formats percentage with proper decimal places
- */
 export function formatPercentage(value: number, decimals = 0): string {
   return `${value.toFixed(decimals)}%`;
 }
+
