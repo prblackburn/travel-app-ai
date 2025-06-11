@@ -98,11 +98,11 @@ pnpm lint
 # Type check command
 pnpm typecheck
 
-# Database migrations
-pnpm db:migrate
-
-# Database seed
-pnpm db:seed
+# Database operations
+pnpm db:migrate              # Run Drizzle migrations
+pnpm db:seed                 # Seed database with sample data
+drizzle-kit generate         # Generate new migration
+sqlite3 travel-app.db        # Direct database access
 ```
 
 ## Project Structure
@@ -149,6 +149,7 @@ Before submitting any code, ensure the following steps are completed:
 - **SQLite Concurrency**: Use WAL mode for better read/write performance
 - **CSS Module Types**: May need to add type declarations for CSS modules
 - **Remix Dev Mode**: Hot reload may occasionally require manual refresh
+- **better-sqlite3 Bindings**: On some systems, native bindings may fail during setup. Use sqlite3 CLI for initial database creation: `sqlite3 travel-app.db < src/db/migrations/0000_*.sql`
 
 ## References
 
