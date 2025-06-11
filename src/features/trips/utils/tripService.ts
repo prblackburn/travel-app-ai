@@ -29,7 +29,7 @@ export async function getTripById(id: string): Promise<Trip | null> {
 export async function createTrip(tripData: CreateTripData): Promise<Trip> {
   try {
     const validatedData = validateCreateTripData(tripData);
-    
+
     const newTrip = {
       id: crypto.randomUUID(),
       name: validatedData.name,

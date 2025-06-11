@@ -136,9 +136,7 @@ export async function getActivitiesByDateRange(
       .orderBy(asc(activities.date), asc(activities.time));
 
     // Filter in memory for date range since SQLite date comparison with gte/lte is complex
-    return result.filter(activity => 
-      activity.date >= startDate && activity.date <= endDate
-    );
+    return result.filter(activity => activity.date >= startDate && activity.date <= endDate);
   } catch (error) {
     throw handleDatabaseError(error);
   }
@@ -160,7 +158,7 @@ export async function checkTimeConflict(
       .limit(1);
 
     const activity = result[0] ?? null;
-    
+
     // If we found an activity and we're excluding a specific ID, check if it's the same
     if (activity && excludeActivityId && activity.id === excludeActivityId) {
       return null; // Don't count as conflict if it's the same activity being updated

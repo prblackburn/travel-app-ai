@@ -87,7 +87,10 @@ export function validateUpdateTripData(data: UpdateTripData): UpdateTripData {
     } else if (data.destination.trim().length < 2) {
       errors.push({ field: 'destination', message: 'Destination must be at least 2 characters' });
     } else if (data.destination.trim().length > 100) {
-      errors.push({ field: 'destination', message: 'Destination must be less than 100 characters' });
+      errors.push({
+        field: 'destination',
+        message: 'Destination must be less than 100 characters',
+      });
     }
   }
 
@@ -142,11 +145,13 @@ export function validateUpdateTripData(data: UpdateTripData): UpdateTripData {
 }
 
 // Legacy function for backward compatibility
-export function validateTripData(data: CreateTripData | UpdateTripData): CreateTripData | UpdateTripData {
+export function validateTripData(
+  data: CreateTripData | UpdateTripData
+): CreateTripData | UpdateTripData {
   // Check if this is CreateTripData (has all required fields) or UpdateTripData
   if ('name' in data && 'destination' in data && 'startDate' in data && 'endDate' in data) {
     return validateCreateTripData(data as CreateTripData);
   } else {
-    return validateUpdateTripData(data as UpdateTripData);
+    return validateUpdateTripData(data);
   }
 }

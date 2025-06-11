@@ -1,8 +1,4 @@
 .form {
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 32px;
   max-width: 600px;
   margin: 0 auto;
 }
@@ -10,31 +6,26 @@
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  margin-bottom: 24px;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .actions {
   display: flex;
-  gap: 12px;
+  gap: 1rem;
   justify-content: flex-end;
-  margin-top: 32px;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
 }
 
-@media (max-width: 768px) {
-  .form {
-    padding: 24px 16px;
-    margin: 0 16px;
-  }
-  
+/* Make form single column on mobile */
+@media (max-width: 640px) {
   .grid {
     grid-template-columns: 1fr;
-    gap: 16px;
-    margin-bottom: 16px;
   }
   
   .actions {
     flex-direction: column-reverse;
-    margin-top: 24px;
   }
 }

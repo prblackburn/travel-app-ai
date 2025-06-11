@@ -174,6 +174,7 @@ Before submitting any code, ensure the following steps are completed:
 - **Form Validation**: Use separate validation functions for create vs update operations for better type safety
 - **Date Utils**: Export alias functions for commonly used operations (`formatDate`, `isValidDate`, etc.)
 - **Feature Modules**: Follow established pattern: `/utils/service.ts`, `/utils/validation.ts`, `/components/`
+- **Form Styling**: All forms use clean minimal styling (no white background) with 1rem spacing, 640px mobile breakpoint, and border-top separator above actions for better readability
 
 ## References
 
