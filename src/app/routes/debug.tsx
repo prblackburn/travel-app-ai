@@ -40,8 +40,10 @@ export default function Debug(): JSX.Element {
   return (
     <div style={{ fontFamily: 'monospace', padding: '20px' }}>
       <h1>Stack Validation Debug</h1>
-      <p style={{ color: '#666', fontStyle: 'italic' }}>Development tool - remove before production</p>
-      
+      <p style={{ color: '#666', fontStyle: 'italic' }}>
+        Development tool - remove before production
+      </p>
+
       <h2>Database Connection</h2>
       <p>Status: {data.success ? '✅ Connected' : '❌ Failed'}</p>
       {!data.success && <p>Error: {data.error}</p>}

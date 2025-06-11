@@ -56,6 +56,8 @@ import type { Trip, CreateTripData } from '~/shared/types/index.js';
 - **Error boundaries**: Consistent error handling with try-catch and error utilities
 - **Type-first development**: Define types before implementation
 - **Explicit return types**: All exported functions must have explicit return types
+- **Nullish coalescing**: Use `??` operator instead of `||` for safer defaults
+- **Shared utilities**: Centralized utility functions in `src/shared/utils/` for reuse across features
 
 ```typescript
 // Good: Explicit return type and error handling
@@ -111,6 +113,8 @@ Key directories and their purpose:
 
 - `/src/features` - Feature-based modules (trips, itinerary, packing)
 - `/src/shared` - Reusable components, hooks, utilities, and types
+  - `/utils` - Utility functions (dateUtils, errorUtils, formatters, validationUtils)
+  - `/types` - TypeScript type definitions and interfaces
 - `/src/db` - Database schema, migrations, and seed data
 - `/src/app` - Remix app structure (routes, root, styles)
 

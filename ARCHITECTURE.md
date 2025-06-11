@@ -45,31 +45,19 @@ src/
 │   │   ├── types.ts
 │   │   └── styles/
 │   │       └── trips.module.css
-│   ├── itinerary/
-│   │   ├── components/
-│   │   │   ├── ActivityCard.tsx
-│   │   │   ├── ActivityForm.tsx
-│   │   │   └── ItineraryView.tsx
-│   │   ├── hooks/
-│   │   │   └── useActivities.ts
-│   │   ├── utils/
-│   │   │   ├── activityValidation.ts
-│   │   │   └── timeUtils.ts
-│   │   ├── types.ts
-│   │   └── styles/
-│   │       └── itinerary.module.css
-│   └── packing/
+│   └── itinerary/
 │       ├── components/
-│       │   ├── PackingList.tsx
-│       │   ├── PackingItem.tsx
-│       │   └── PackingProgress.tsx
+│       │   ├── ActivityCard.tsx
+│       │   ├── ActivityForm.tsx
+│       │   └── ItineraryView.tsx
 │       ├── hooks/
-│       │   └── usePackingLists.ts
+│       │   └── useActivities.ts
 │       ├── utils/
-│       │   └── packingUtils.ts
+│       │   ├── activityValidation.ts
+│       │   └── timeUtils.ts
 │       ├── types.ts
 │       └── styles/
-│           └── packing.module.css
+│           └── itinerary.module.css
 ├── shared/
 │   ├── components/
 │   │   ├── Layout.tsx
@@ -136,28 +124,6 @@ CREATE TABLE activities (
   FOREIGN KEY (trip_id) REFERENCES trips(id) ON DELETE CASCADE
 );
 
--- Packing Lists table
-CREATE TABLE packing_lists (
-  id TEXT PRIMARY KEY,
-  trip_id TEXT NOT NULL,
-  name TEXT NOT NULL,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (trip_id) REFERENCES trips(id) ON DELETE CASCADE
-);
-
--- Packing Items table
-CREATE TABLE packing_items (
-  id TEXT PRIMARY KEY,
-  list_id TEXT NOT NULL,
-  name TEXT NOT NULL,
-  category TEXT,
-  quantity INTEGER DEFAULT 1,
-  is_packed BOOLEAN DEFAULT FALSE,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (list_id) REFERENCES packing_lists(id) ON DELETE CASCADE
-);
 ```
 
 ## API Design
@@ -179,19 +145,6 @@ CREATE TABLE packing_items (
 - `PUT /api/activities/:id` - Update activity
 - `DELETE /api/activities/:id` - Delete activity
 
-**Packing Lists**
-
-- `GET /api/trips/:tripId/packing-lists` - List packing lists
-- `POST /api/trips/:tripId/packing-lists` - Create packing list
-- `PUT /api/packing-lists/:id` - Update packing list
-- `DELETE /api/packing-lists/:id` - Delete packing list
-
-**Packing Items**
-
-- `GET /api/packing-lists/:listId/items` - List items
-- `POST /api/packing-lists/:listId/items` - Create item
-- `PUT /api/packing-items/:id` - Update item
-- `DELETE /api/packing-items/:id` - Delete item
 
 ## Data Flow Architecture
 
@@ -202,9 +155,8 @@ CREATE TABLE packing_items (
 export async function loader({ params }: LoaderFunctionArgs) {
   const trip = await getTripById(params.tripId);
   const activities = await getActivitiesByTripId(params.tripId);
-  const packingLists = await getPackingListsByTripId(params.tripId);
 
-  return json({ trip, activities, packingLists });
+  return json({ trip, activities });
 }
 
 export async function action({ request, params }: ActionFunctionArgs) {

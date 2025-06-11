@@ -2,7 +2,7 @@
 
 ## Overview
 
-A web-based travel planning application that enables users to create trips, plan detailed itineraries, and manage packing lists. Built with TypeScript, Remix, and SQLite for rapid development and deployment.
+A web-based travel planning application that enables users to create trips and plan detailed itineraries. Built with TypeScript, Remix, and SQLite for rapid development and deployment.
 
 ## Core Features
 
@@ -42,23 +42,6 @@ A web-based travel planning application that enables users to create trips, plan
 - Activity dates must fall within trip date range
 - Time conflicts are highlighted but not blocked (user choice)
 
-### 3. Packing Lists
-
-**User Stories:**
-
-- As a user, I want to create packing lists for my trips so I don't forget important items
-- As a user, I want to add items to my packing list so I can track what to bring
-- As a user, I want to mark items as packed so I can track my progress
-- As a user, I want to see packing progress so I know how much is left to do
-
-**Acceptance Criteria:**
-
-- Users can create multiple packing lists per trip
-- Users can add items with: name, category (optional), quantity
-- Items can be marked as packed/unpacked
-- Progress indicator shows percentage of items packed
-- Users can edit item details and delete items
-- Categories help organize items (Clothing, Electronics, Documents, etc.)
 
 ## User Interface Requirements
 
@@ -71,9 +54,8 @@ A web-based travel planning application that enables users to create trips, plan
 ### Key Pages
 
 1. **Trip Dashboard** - Overview of all trips
-2. **Trip Detail** - Individual trip with tabs for itinerary and packing
+2. **Trip Detail** - Individual trip with itinerary management
 3. **Itinerary View** - Chronological list of activities
-4. **Packing Lists** - Categorized items with progress tracking
 
 ### User Experience Principles
 
@@ -92,14 +74,6 @@ A web-based travel planning application that enables users to create trips, plan
 
 - ID, trip ID, name, date, time, location, notes, created date, updated date
 
-### Packing List Entity
-
-- ID, trip ID, name, created date, updated date
-
-### Packing Item Entity
-
-- ID, list ID, name, category, quantity, is packed, created date, updated date
-
 ## Business Rules
 
 1. **Trip Validation**
@@ -114,20 +88,16 @@ A web-based travel planning application that enables users to create trips, plan
    - Time format validation (24-hour or 12-hour)
    - Activity name is required
 
-3. **Packing Rules**
-   - Items can be added to multiple lists
-   - Quantity must be positive integer
-   - Category is optional but recommended
-
 ## Success Metrics
 
-- Users can complete core workflow (create trip → add activities → create packing list) in under 5 minutes
+- Users can complete core workflow (create trip → add activities) in under 3 minutes
 - Zero data loss during normal operations
 - All user inputs validated with helpful error messages
 - Responsive design works on mobile and desktop
 
 ## Future Considerations (Out of Scope)
 
+- Packing lists and item management
 - Multi-user collaboration
 - Weather integration
 - Budget tracking

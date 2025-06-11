@@ -24,24 +24,6 @@ export interface Activity {
   updatedAt: string; // ISO datetime string from CURRENT_TIMESTAMP
 }
 
-export interface PackingList {
-  id: string;
-  tripId: string;
-  name: string;
-  createdAt: string; // ISO datetime string from CURRENT_TIMESTAMP
-  updatedAt: string; // ISO datetime string from CURRENT_TIMESTAMP
-}
-
-export interface PackingItem {
-  id: string;
-  listId: string;
-  name: string;
-  category?: string;
-  quantity: number; // integer, default 1 in database
-  isPacked: boolean; // boolean mode in SQLite, default false
-  createdAt: string; // ISO datetime string from CURRENT_TIMESTAMP
-  updatedAt: string; // ISO datetime string from CURRENT_TIMESTAMP
-}
 
 // Form Data Types (for create/update operations)
 
@@ -78,28 +60,6 @@ export interface UpdateActivityData {
   notes?: string;
 }
 
-export interface CreatePackingListData {
-  tripId: string;
-  name: string;
-}
-
-export interface UpdatePackingListData {
-  name?: string;
-}
-
-export interface CreatePackingItemData {
-  listId: string;
-  name: string;
-  category?: string;
-  quantity?: number;
-}
-
-export interface UpdatePackingItemData {
-  name?: string;
-  category?: string;
-  quantity?: number;
-  isPacked?: boolean;
-}
 
 // API Response Types
 
@@ -139,17 +99,6 @@ export interface FormState<T> {
 
 export interface TripWithRelations extends Trip {
   activities?: Activity[];
-  packingLists?: PackingListWithItems[];
-}
-
-export interface PackingListWithItems extends PackingList {
-  items?: PackingItem[];
-}
-
-export interface PackingProgress {
-  totalItems: number;
-  packedItems: number;
-  percentage: number;
 }
 
 // Search and Filter Types
@@ -170,31 +119,7 @@ export interface ActivityFilters {
   sortOrder?: 'asc' | 'desc';
 }
 
-export interface PackingItemFilters {
-  listId: string;
-  category?: string;
-  isPacked?: boolean;
-  sortBy?: 'name' | 'category' | 'createdAt';
-  sortOrder?: 'asc' | 'desc';
-}
 
-// Common Packing Categories (based on seed data and functional requirements)
-
-export const PACKING_CATEGORIES = [
-  'Clothing',
-  'Documents',
-  'Electronics',
-  'Toiletries',
-  'Beach', // from seed data
-  'Medications',
-  'Entertainment',
-  'Outdoor Gear',
-  'Food & Snacks',
-  'Emergency',
-  'Other',
-] as const;
-
-export type PackingCategory = (typeof PACKING_CATEGORIES)[number];
 
 // Time and Date Utilities Types
 
@@ -231,20 +156,6 @@ export interface UseActivitiesReturn {
   refreshActivities: () => Promise<void>;
 }
 
-export interface UsePackingReturn {
-  packingLists: PackingListWithItems[];
-  isLoading: boolean;
-  error: AppError | null;
-  createPackingList: (data: CreatePackingListData) => Promise<void>;
-  updatePackingList: (id: string, data: UpdatePackingListData) => Promise<void>;
-  deletePackingList: (id: string) => Promise<void>;
-  createPackingItem: (data: CreatePackingItemData) => Promise<void>;
-  updatePackingItem: (id: string, data: UpdatePackingItemData) => Promise<void>;
-  deletePackingItem: (id: string) => Promise<void>;
-  togglePackingItem: (id: string) => Promise<void>;
-  getPackingProgress: (listId: string) => PackingProgress;
-  refreshPackingLists: () => Promise<void>;
-}
 
 // Component Props Types
 
@@ -262,12 +173,6 @@ export interface ActivityCardProps {
   showConflicts?: boolean;
 }
 
-export interface PackingItemProps {
-  item: PackingItem;
-  onToggle: (itemId: string) => void;
-  onEdit: (item: PackingItem) => void;
-  onDelete: (itemId: string) => void;
-}
 
 export interface ModalProps {
   isOpen: boolean;
@@ -296,11 +201,3 @@ export interface ActivityFormProps {
   errors?: ValidationError[];
 }
 
-export interface PackingItemFormProps {
-  item?: PackingItem;
-  listId: string;
-  onSubmit: (data: CreatePackingItemData | UpdatePackingItemData) => void;
-  onCancel: () => void;
-  isSubmitting?: boolean;
-  errors?: ValidationError[];
-}

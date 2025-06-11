@@ -213,59 +213,9 @@
   **Dependencies**: Task 16, Task 13
   **Definition of Done**: Activities integrated into trip pages, API works, chronological sorting correct
 
-## Packing Feature
-
-### 18. Create Packing Data Layer
-
-**Description**: Implement database operations for packing lists and items
-**Deliverables**:
-
-- Packing list CRUD operations
-- Packing item CRUD operations with list association
-- Progress calculation utilities
-- Category management functions
-  **Dependencies**: Task 10, Task 7, Task 9
-  **Definition of Done**: Packing operations work, progress calculations accurate, categories supported
-
-### 19. Build Packing Components
-
-**Description**: Create components for packing list management
-**Deliverables**:
-
-- PackingList component with progress indicator
-- PackingItem component with checkbox and details
-- PackingProgress component showing completion status
-- Category grouping and filtering
-  **Dependencies**: Task 8, Task 4
-  **Definition of Done**: Packing components work, progress accurate, categories display correctly
-
-### 20. Implement Packing Management Hooks
-
-**Description**: Build hooks for packing list state and operations
-**Deliverables**:
-
-- usePackingLists hook for fetching lists
-- Packing item check/uncheck operations
-- Progress tracking and calculations
-- Multiple list management per trip
-  **Dependencies**: Task 18, Task 19
-  **Definition of Done**: Packing hooks work correctly, check/uncheck updates progress, multiple lists supported
-
-### 21. Create Packing Routes and Integration
-
-**Description**: Integrate packing lists into trip detail pages
-**Deliverables**:
-
-- Packing tab within trip detail route
-- API endpoints for packing operations
-- Multiple packing list support
-- Progress indicators and item management
-  **Dependencies**: Task 20, Task 13
-  **Definition of Done**: Packing integrated into trip pages, multiple lists work, progress displays correctly
-
 ## UI/UX Polish
 
-### 22. Implement Navigation and Layout
+### 18. Implement Navigation and Layout
 
 **Description**: Create comprehensive navigation and responsive layout
 **Deliverables**:
@@ -277,7 +227,7 @@
   **Dependencies**: Task 8
   **Definition of Done**: Navigation works on all screen sizes, breadcrumbs accurate, layout consistent
 
-### 23. Add Form Validation and UX Improvements
+### 19. Add Form Validation and UX Improvements
 
 **Description**: Enhance forms with comprehensive validation and user feedback
 **Deliverables**:
@@ -289,12 +239,12 @@
   **Dependencies**: Task 7, Task 9
   **Definition of Done**: All forms validate properly, users get clear feedback, loading states visible
 
-### 24. Implement Confirmation Dialogs and Interactions
+### 20. Implement Confirmation Dialogs and Interactions
 
 **Description**: Add confirmation dialogs for destructive actions
 **Deliverables**:
 
-- Delete confirmation modals for trips, activities, items
+- Delete confirmation modals for trips and activities
 - Unsaved changes warnings
 - Keyboard shortcuts for common actions
 - Accessibility improvements
@@ -303,7 +253,7 @@
 
 ## Final Polish and Deployment Prep
 
-### 25. Performance Optimization
+### 21. Performance Optimization
 
 **Description**: Optimize app performance and bundle size
 **Deliverables**:
@@ -312,10 +262,10 @@
 - Database query optimization
 - Bundle analysis and optimization
 - Loading performance improvements
-  **Dependencies**: Task 24
+  **Dependencies**: Task 20
   **Definition of Done**: App performs well, bundle size reasonable, database queries optimized
 
-### 26. Documentation and Code Quality Review
+### 22. Documentation and Code Quality Review
 
 **Description**: Final code review and documentation updates
 **Deliverables**:
@@ -324,10 +274,10 @@
 - JSDoc comments for complex functions
 - Code style compliance check
 - Architecture documentation review
-  **Dependencies**: Task 25
+  **Dependencies**: Task 21
   **Definition of Done**: Documentation current, code style consistent, architecture followed
 
-### 27. Deployment Configuration
+### 23. Deployment Configuration
 
 **Description**: Prepare application for deployment
 **Deliverables**:
@@ -336,7 +286,7 @@
 - Environment variable setup
 - SQLite WAL mode configuration
 - Deployment scripts and documentation
-  **Dependencies**: Task 26
+  **Dependencies**: Task 22
   **Definition of Done**: App builds for production, environment configured, deployment ready
 
 ---
@@ -348,9 +298,8 @@
 **Phase 3 - Shared Infrastructure (Tasks 7-9)**: Depends on Phase 2
 **Phase 4 - Trip Feature (Tasks 10-13)**: Depends on Phase 3
 **Phase 5 - Itinerary Feature (Tasks 14-17)**: Depends on Phase 4
-**Phase 6 - Packing Feature (Tasks 18-21)**: Depends on Phase 4
-**Phase 7 - UI/UX (Tasks 22-24)**: Depends on Phases 5-6
-**Phase 8 - Final (Tasks 25-27)**: Depends on Phase 7
+**Phase 6 - UI/UX (Tasks 18-20)**: Depends on Phase 5
+**Phase 7 - Final (Tasks 21-23)**: Depends on Phase 6
 
 ## Quick Reference Commands
 
