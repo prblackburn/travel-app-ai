@@ -13,7 +13,6 @@ A TypeScript-based travel planning web application built with Remix that allows 
 - **Database**: SQLite with Drizzle ORM
 - **Package Manager**: pnpm
 - **Styling**: CSS Modules
-- **Testing**: Vitest + React Testing Library
 
 ## Code Style & Conventions
 
@@ -75,14 +74,7 @@ export async function createTrip(tripData: CreateTripData): Promise<Trip> {
 
 - **Branch strategy**: Feature branches for development, main for stable code
 - **Commit message format**: Conventional Commits (`feat:`, `fix:`, `refactor:`, etc.)
-- **PR requirements**: All tests passing, linting clean, type checking successful
-
-## Testing Strategy
-
-- **Test frameworks**: Vitest for unit tests, React Testing Library for components
-- **Coverage requirements**: Focus on business logic and critical user flows
-- **Test naming**: `describe('FeatureName')` → `it('should do specific behavior')`
-- **Test organization**: Mirror source structure in `tests/` directory
+- **PR requirements**: Linting clean, type checking successful
 
 ## Environment Setup
 
@@ -99,9 +91,6 @@ pnpm dev
 
 # Build command
 pnpm build
-
-# Test command
-pnpm test
 
 # Lint command
 pnpm lint
@@ -124,15 +113,14 @@ Key directories and their purpose:
 - `/src/shared` - Reusable components, hooks, utilities, and types
 - `/src/db` - Database schema, migrations, and seed data
 - `/src/app` - Remix app structure (routes, root, styles)
-- `/tests` - Test files mirroring source structure
 
 ## Review Process Guidelines
 
 Before submitting any code, ensure the following steps are completed:
 
-1. **Run all lint, check and test commands**
+1. **Run all lint and check commands**
    ```bash
-   pnpm lint && pnpm typecheck && pnpm test
+   pnpm lint && pnpm typecheck
    ```
 
 2. **Review outputs and iterate until all issues are resolved**
@@ -144,7 +132,6 @@ Before submitting any code, ensure the following steps are completed:
    - Naming conventions (camelCase functions, PascalCase components)
    - Architecture patterns (feature-based, custom hooks, functional utils)
    - Error handling (try-catch with error utilities)
-   - Test coverage (business logic and critical flows)
    - Documentation (JSDoc for complex functions, README updates)
 
 4. **Self-review checklist**:
@@ -152,7 +139,6 @@ Before submitting any code, ensure the following steps are completed:
    - [ ] All functions have explicit return types
    - [ ] Error handling implemented with try-catch
    - [ ] No console.log or debug code
-   - [ ] Tests written for business logic
    - [ ] CSS Modules used for styling
    - [ ] TypeScript strict mode compliance
    - [ ] Conventional commit message format

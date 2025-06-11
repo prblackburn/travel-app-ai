@@ -13,14 +13,12 @@
 **Definition of Done**: Project initialized with proper structure, pnpm configured, TypeScript strict mode enabled
 
 ### 2. Configure Development Tools
-**Description**: Set up linting, formatting, and testing infrastructure
+**Description**: Set up linting and formatting infrastructure
 **Deliverables**:
 - Configure ESLint with strict rules
 - Set up Prettier for code formatting
-- Install and configure Vitest + React Testing Library
-- Create basic test setup files
 **Dependencies**: Task 1
-**Definition of Done**: All dev tools configured, basic test can run successfully
+**Definition of Done**: All dev tools configured, linting and formatting work
 
 ### 3. Database Setup with Drizzle ORM
 **Description**: Initialize SQLite database with Drizzle ORM and create basic schema
@@ -75,7 +73,7 @@
 - General formatters for common data types
 - Validation helper functions
 **Dependencies**: Task 4
-**Definition of Done**: Utility functions tested, properly typed, no external dependencies
+**Definition of Done**: Utility functions properly typed, no external dependencies
 
 ### 8. Create Shared UI Components
 **Description**: Build reusable UI components with CSS Modules
@@ -255,68 +253,36 @@
 **Dependencies**: Task 8
 **Definition of Done**: Confirmations prevent accidental deletions, keyboard navigation works, accessible
 
-## Testing and Quality Assurance
-
-### 25. Write Unit Tests for Utilities and Hooks
-**Description**: Create comprehensive unit tests for core functionality
-**Deliverables**:
-- Tests for all utility functions
-- Tests for custom hooks
-- Tests for validation functions
-- Database operation tests
-**Dependencies**: Task 2, Task 7, Task 12, Task 16, Task 20
-**Definition of Done**: All utility functions and hooks tested, tests pass, good coverage
-
-### 26. Write Integration Tests for Components
-**Description**: Test component interactions and form submissions
-**Deliverables**:
-- Component rendering tests
-- Form submission tests
-- User interaction tests
-- API integration tests
-**Dependencies**: Task 25, All component tasks
-**Definition of Done**: Component interactions tested, forms work end-to-end, API calls tested
-
-### 27. Create End-to-End User Journey Tests
-**Description**: Test complete user workflows from start to finish
-**Deliverables**:
-- Trip creation to completion workflow test
-- Activity planning workflow test
-- Packing list management workflow test
-- Error handling and edge case tests
-**Dependencies**: Task 26
-**Definition of Done**: Full user journeys tested, major workflows work end-to-end
-
 ## Final Polish and Deployment Prep
 
-### 28. Performance Optimization
+### 25. Performance Optimization
 **Description**: Optimize app performance and bundle size
 **Deliverables**:
 - Component memoization where appropriate
 - Database query optimization
 - Bundle analysis and optimization
 - Loading performance improvements
-**Dependencies**: All feature tasks complete
+**Dependencies**: Task 24
 **Definition of Done**: App performs well, bundle size reasonable, database queries optimized
 
-### 29. Documentation and Code Quality Review
+### 26. Documentation and Code Quality Review
 **Description**: Final code review and documentation updates
 **Deliverables**:
 - Update README with setup instructions
 - JSDoc comments for complex functions
 - Code style compliance check
 - Architecture documentation review
-**Dependencies**: All tasks complete
+**Dependencies**: Task 25
 **Definition of Done**: Documentation current, code style consistent, architecture followed
 
-### 30. Deployment Configuration
+### 27. Deployment Configuration
 **Description**: Prepare application for deployment
 **Deliverables**:
 - Production build configuration
 - Environment variable setup
 - SQLite WAL mode configuration
 - Deployment scripts and documentation
-**Dependencies**: Task 29
+**Dependencies**: Task 26
 **Definition of Done**: App builds for production, environment configured, deployment ready
 
 ---
@@ -330,17 +296,13 @@
 **Phase 5 - Itinerary Feature (Tasks 14-17)**: Depends on Phase 4
 **Phase 6 - Packing Feature (Tasks 18-21)**: Depends on Phase 4
 **Phase 7 - UI/UX (Tasks 22-24)**: Depends on Phases 5-6
-**Phase 8 - Testing (Tasks 25-27)**: Depends on Phase 7
-**Phase 9 - Final (Tasks 28-30)**: Depends on Phase 8
+**Phase 8 - Final (Tasks 25-27)**: Depends on Phase 7
 
 ## Quick Reference Commands
 
 ```bash
 # Start development
 pnpm dev
-
-# Run tests
-pnpm test
 
 # Type check
 pnpm typecheck

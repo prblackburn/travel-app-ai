@@ -21,7 +21,6 @@
 - **Linting**: ESLint (strict mode)
 - **Formatting**: Prettier
 - **Type Checking**: TypeScript strict mode
-- **Testing**: Vitest + React Testing Library
 
 ## Project Structure
 
@@ -327,30 +326,6 @@ export async function createTrip(tripData: CreateTripData): Promise<Trip> {
 - Drizzle ORM parameterized queries
 - No raw SQL string concatenation
 
-## Testing Strategy
-
-### Unit Tests
-- Utility functions (validation, formatting)
-- Custom hooks (using React Testing Library)
-- Database operations (with test database)
-
-### Integration Tests
-- API endpoints (request/response)
-- Component interactions
-- Form submissions
-
-### Test Organization
-```
-tests/
-├── unit/
-│   ├── utils/
-│   └── hooks/
-├── integration/
-│   ├── api/
-│   └── components/
-└── setup/
-    └── test-db.ts
-```
 
 ## Deployment Architecture
 
