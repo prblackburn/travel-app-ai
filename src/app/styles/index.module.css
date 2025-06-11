@@ -1,0 +1,144 @@
+/* Welcome page styles using CSS Modules */
+
+.container {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.25rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+@media (prefers-color-scheme: dark) {
+  .title {
+    color: #f3f4f6;
+  }
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.logoContainer {
+  height: 144px;
+  width: 434px;
+}
+
+.logoLight {
+  display: block;
+  width: 100%;
+}
+
+@media (prefers-color-scheme: dark) {
+  .logoLight {
+    display: none;
+  }
+}
+
+.logoDark {
+  display: none;
+  width: 100%;
+}
+
+@media (prefers-color-scheme: dark) {
+  .logoDark {
+    display: block;
+  }
+}
+
+.navigation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  border-radius: 1.5rem;
+  border: 1px solid #e5e7eb;
+  padding: 1.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .navigation {
+    border-color: #374151;
+  }
+}
+
+.subtitle {
+  line-height: 1.5rem;
+  color: #374151;
+}
+
+@media (prefers-color-scheme: dark) {
+  .subtitle {
+    color: #e5e7eb;
+  }
+}
+
+.resourceList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.resourceLink {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  align-self: stretch;
+  padding: 0.75rem;
+  line-height: 1.5;
+  color: #1d4ed8;
+  text-decoration: none;
+}
+
+.resourceLink:hover {
+  text-decoration: underline;
+}
+
+@media (prefers-color-scheme: dark) {
+  .resourceLink {
+    color: #3b82f6;
+  }
+}
+
+.icon {
+  stroke: #4b5563;
+  transition: stroke 0.2s;
+}
+
+.resourceLink:hover .icon {
+  stroke: currentColor;
+}
+
+@media (prefers-color-scheme: dark) {
+  .icon {
+    stroke: #d1d5db;
+  }
+}
