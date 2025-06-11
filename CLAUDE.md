@@ -149,7 +149,14 @@ Before submitting any code, ensure the following steps are completed:
 - **SQLite Concurrency**: Use WAL mode for better read/write performance
 - **CSS Module Types**: May need to add type declarations for CSS modules
 - **Remix Dev Mode**: Hot reload may occasionally require manual refresh
-- **better-sqlite3 Bindings**: On some systems, native bindings may fail during setup. Use sqlite3 CLI for initial database creation: `sqlite3 travel-app.db < src/db/migrations/0000_*.sql`
+- **better-sqlite3 Bindings**: Native bindings fail during Drizzle migrations. Always use sqlite3 CLI workaround:
+  ```bash
+  # Generate migration first
+  npx drizzle-kit generate
+  
+  # Apply with sqlite3 CLI instead of pnpm db:migrate
+  sqlite3 travel-app.db < src/db/migrations/XXXX_migration_name.sql
+  ```
 
 ## References
 
