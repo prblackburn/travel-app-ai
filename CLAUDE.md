@@ -149,7 +149,8 @@ Before submitting any code, ensure the following steps are completed:
 - **SQLite Concurrency**: Use WAL mode for better read/write performance
 - **CSS Module Types**: May need to add type declarations for CSS modules
 - **Remix Dev Mode**: Hot reload may occasionally require manual refresh
-- **better-sqlite3 Bindings**: Native bindings fail during Drizzle migrations and seed operations. Always use sqlite3 CLI workaround:
+- **Database Driver**: Using @libsql/client for Remix compatibility (better-sqlite3 bindings fail in dev server)
+- **Database Operations**: SQLite CLI used for migrations and seed data:
   ```bash
   # Generate migration first
   npx drizzle-kit generate
@@ -160,6 +161,7 @@ Before submitting any code, ensure the following steps are completed:
   # Seed data uses TypeScript script + sqlite3 CLI workflow
   # pnpm db:seed handles: generate SQL → apply migration → insert seed data
   ```
+- **Stack Validation**: Use /debug route to verify database connection and data integrity
 
 ## References
 

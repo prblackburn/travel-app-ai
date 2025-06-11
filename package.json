@@ -16,10 +16,10 @@
     "db:seed": "tsx src/db/seed.ts && sqlite3 travel-app.db < src/db/migrations/0000_naive_blindfold.sql && sqlite3 travel-app.db < src/db/seed.sql"
   },
   "dependencies": {
+    "@libsql/client": "^0.15.9",
     "@remix-run/node": "^2.16.8",
     "@remix-run/react": "^2.16.8",
     "@remix-run/serve": "^2.16.8",
-    "better-sqlite3": "^11.10.0",
     "drizzle-orm": "^0.44.2",
     "isbot": "^4.1.0",
     "react": "^18.2.0",
@@ -27,7 +27,6 @@
   },
   "devDependencies": {
     "@remix-run/dev": "^2.16.8",
-    "@types/better-sqlite3": "^7.6.13",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.7.4",

@@ -182,7 +182,7 @@ export interface PackingItemFilters {
 
 export const PACKING_CATEGORIES = [
   'Clothing',
-  'Documents', 
+  'Documents',
   'Electronics',
   'Toiletries',
   'Beach', // from seed data

@@ -1,5 +1,5 @@
-import { sqliteTable, text, integer, index } from 'drizzle-orm/sqlite-core';
 import { sql } from 'drizzle-orm';
+import { sqliteTable, text, integer, index } from 'drizzle-orm/sqlite-core';
 
 export const trips = sqliteTable(
   'trips',
@@ -17,7 +17,7 @@ export const trips = sqliteTable(
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
   },
-  (table) => ({
+  table => ({
     nameIdx: index('trips_name_idx').on(table.name),
     startDateIdx: index('trips_start_date_idx').on(table.startDate),
   })
@@ -42,7 +42,7 @@ export const activities = sqliteTable(
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
   },
-  (table) => ({
+  table => ({
     tripIdIdx: index('activities_trip_id_idx').on(table.tripId),
     dateIdx: index('activities_date_idx').on(table.date),
   })
@@ -63,7 +63,7 @@ export const packingLists = sqliteTable(
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
   },
-  (table) => ({
+  table => ({
     tripIdIdx: index('packing_lists_trip_id_idx').on(table.tripId),
   })
 );
@@ -86,7 +86,7 @@ export const packingItems = sqliteTable(
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
   },
-  (table) => ({
+  table => ({
     listIdIdx: index('packing_items_list_id_idx').on(table.listId),
     categoryIdx: index('packing_items_category_idx').on(table.category),
     packedIdx: index('packing_items_packed_idx').on(table.isPacked),

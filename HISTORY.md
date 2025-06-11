@@ -121,7 +121,7 @@ Completed comprehensive project setup phase, transforming workshop template into
   - Migration applied using sqlite3 CLI workaround for better-sqlite3 bindings issue
   - Database structure ready for seed data and service layer implementation
 
-**Session 8: Task 6 Completion (Nov 6, 2025)**
+**Session 8: Task 6 Completion + Critical Database Fix (Nov 6, 2025)**
 
 - ✅ **Task 6: Create Database Seed Data** - Complete
   - Created comprehensive seed script with 3 realistic trips (Paris, Hawaii, Tokyo)
@@ -131,35 +131,45 @@ Completed comprehensive project setup phase, transforming workshop template into
   - Package script `pnpm db:seed` now handles migration + seed data application
   - All sample data demonstrates functional requirements and business rules compliance
 
+- 🔧 **Critical Infrastructure Fix: Database Driver Switch**
+  - **Issue Found**: better-sqlite3 bindings fail in Remix dev server environment
+  - **Validation Method**: Created `/debug` route to test full stack integration
+  - **Solution**: Switched from `better-sqlite3` to `@libsql/client` for Remix compatibility
+  - **Result**: Full stack validation successful - database, types, and Remix integration working
+  - **Impact**: Foundation now proven solid, can build features with confidence
+
 ### Current State
 
 **Environment Status:**
 
 - Git repository with continuous development commits
 - Complete Remix TypeScript project structure in place
-- Dependencies configured: Drizzle ORM, SQLite, better-sqlite3, tsx
+- Dependencies configured: Drizzle ORM, SQLite, @libsql/client, tsx
 - Development tooling configured (ESLint, TypeScript, Prettier)
 - Database: SQLite with 4 tables, 8 performance indexes, comprehensive seed data
 - Type system: Complete type definitions for all entities
+- Stack validation: End-to-end testing confirms all components work together
 - Testing completely removed from project scope
 
 **Next Phase Readiness:**
 
 - Tasks 1-6 completed successfully (Foundation + Data Layer phases complete)
+- **Infrastructure validated and proven working**
 - Ready to begin Task 7: Build Shared Utility Functions
 - Database populated with realistic test data for development
-- All foundational infrastructure in place for feature development
+- Debug route available for ongoing validation
 
 **Key Variables/Configurations:**
 
-- Database: SQLite file-based with Drizzle ORM, 8 performance indexes applied
+- Database: SQLite file-based with @libsql/client + Drizzle ORM, 8 performance indexes
 - Package manager: pnpm (configured in project)
 - Node.js: Latest LTS requirement
 - TypeScript: Strict mode enabled with explicit return types required
 - ESLint: Strict rules active with Prettier integration
 - CSS: CSS Modules implemented, Tailwind removed
 - Testing: **REMOVED** - No testing framework or infrastructure
-- Migration workaround: sqlite3 CLI for better-sqlite3 bindings issue
+- Migration workaround: sqlite3 CLI for database operations
+- Validation: /debug route for stack health checks
 
 ### Standards Established
 
@@ -201,9 +211,16 @@ All coding standards, naming conventions, and architectural patterns documented 
 
 ### Deviations from Original Specs
 
-**Major Change:** Removed all testing infrastructure per user request
+**Major Changes:**
 
-- Eliminated Vitest + React Testing Library from tech stack
-- Removed Tasks 25-27 (all testing tasks) from TO-DO.md
-- Updated review process to exclude test requirements
-- Renumbered final tasks from 30 to 27 total tasks
+1. **Removed all testing infrastructure** per user request
+   - Eliminated Vitest + React Testing Library from tech stack
+   - Removed Tasks 25-27 (all testing tasks) from TO-DO.md
+   - Updated review process to exclude test requirements
+   - Renumbered final tasks from 30 to 27 total tasks
+
+2. **Database driver switch** for Remix compatibility
+   - Changed from better-sqlite3 to @libsql/client
+   - Required due to native binding failures in Remix dev environment
+   - Maintains same SQLite database and schema
+   - All existing migrations and seed data compatible

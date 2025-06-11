@@ -1,13 +1,13 @@
-import Database from 'better-sqlite3';
-import { drizzle } from 'drizzle-orm/better-sqlite3';
+import { createClient } from '@libsql/client';
+import { drizzle } from 'drizzle-orm/libsql';
+
 import * as schema from './schema.js';
 
-const sqlite = new Database('travel-app.db');
+const client = createClient({
+  url: 'file:travel-app.db',
+});
 
-// Enable WAL mode for better concurrency
-sqlite.pragma('journal_mode = WAL');
-
-export const db = drizzle(sqlite, { schema });
+export const db = drizzle(client, { schema });
 
 export type Database = typeof db;
 
