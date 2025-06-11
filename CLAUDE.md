@@ -1,110 +1,172 @@
 **IMPORTANT FOR CLAUDE: Reference this file before implementing anything**
 
-# Project: [Project Name]
+# Project: Travel Planning App
 
 ## Project Overview
 
-A brief description of the project, its purpose, and key goals.
+A TypeScript-based travel planning web application built with Remix that allows users to create trips, plan detailed itineraries, and manage packing lists. Focus on clean architecture, type safety, and maintainable code for rapid workshop development.
 
 ## Tech Stack
 
-- Languages: [list primary languages]
-- Frameworks: [list frameworks]
-- Tools: [list tools]
+- **Languages**: TypeScript (strict mode)
+- **Framework**: Remix (full-stack React)
+- **Database**: SQLite with Drizzle ORM
+- **Package Manager**: pnpm
+- **Styling**: CSS Modules
+- **Testing**: Vitest + React Testing Library
 
 ## Code Style & Conventions
 
 ### Import/Module Standards
 
-- [Specify import standards]
+- Use ES6 imports with explicit file extensions for local modules
+- Group imports: external libraries → internal modules → types
+- Use barrel exports in shared directories (`shared/types/index.ts`)
+- Prefer named imports over default imports for consistency
+
+```typescript
+// External imports
+import { json, type LoaderFunctionArgs } from '@remix-run/node';
+import { useFetcher } from '@remix-run/react';
+
+// Internal imports
+import { getTripById } from '~/features/trips/utils/tripService.js';
+import { TripCard } from '~/features/trips/components/TripCard.js';
+
+// Type imports
+import type { Trip, CreateTripData } from '~/shared/types/index.js';
+```
 
 ### Naming Conventions
 
-- [Functions naming convention]
-- [Classes/Components naming convention]
-- [Constants naming convention]
-- [Files naming convention]
+- **Functions**: `camelCase` - `getUserTrips()`, `validateTripData()`
+- **Components**: `PascalCase` - `TripCard`, `PackingList`
+- **Hooks**: `camelCase` with `use` prefix - `useTrips()`, `useErrorHandler()`
+- **Types/Interfaces**: `PascalCase` - `Trip`, `PackingItem`, `ApiResponse<T>`
+- **Constants**: `SCREAMING_SNAKE_CASE` - `MAX_TRIP_DURATION`, `DEFAULT_CATEGORIES`
+- **Files**: 
+  - Components: `PascalCase.tsx` - `TripCard.tsx`
+  - Utilities: `camelCase.ts` - `dateUtils.ts`
+  - CSS Modules: `kebab-case.module.css` - `trip-card.module.css`
 
 ### Patterns to Follow
 
-- [Key architectural patterns]
-- [Error handling approaches]
-- [Code organisation principles]
+- **Feature-based architecture**: Group related code by business feature
+- **Custom hooks pattern**: Extract business logic into reusable hooks
+- **Functional utilities**: Pure functions for data transformation and validation
+- **Error boundaries**: Consistent error handling with try-catch and error utilities
+- **Type-first development**: Define types before implementation
+- **Explicit return types**: All exported functions must have explicit return types
+
+```typescript
+// Good: Explicit return type and error handling
+export async function createTrip(tripData: CreateTripData): Promise<Trip> {
+  try {
+    const validatedData = validateTripData(tripData);
+    const trip = await db.insert(trips).values(validatedData).returning();
+    return trip[0];
+  } catch (error) {
+    throw handleDatabaseError(error);
+  }
+}
+```
 
 ## Development Workflow
 
-- Branch strategy
-- Commit message format
-- PR requirements
+- **Branch strategy**: Feature branches for development, main for stable code
+- **Commit message format**: Conventional Commits (`feat:`, `fix:`, `refactor:`, etc.)
+- **PR requirements**: All tests passing, linting clean, type checking successful
 
 ## Testing Strategy
 
-- Test frameworks
-- Coverage requirements
-- Test naming conventions
+- **Test frameworks**: Vitest for unit tests, React Testing Library for components
+- **Coverage requirements**: Focus on business logic and critical user flows
+- **Test naming**: `describe('FeatureName')` → `it('should do specific behavior')`
+- **Test organization**: Mirror source structure in `tests/` directory
 
 ## Environment Setup
 
-- Required environment variables
-- Setup commands
-- Local development server
+- **Node.js**: Latest LTS version
+- **Package manager**: pnpm
+- **Database**: SQLite file in project root
+- **Environment variables**: None required for local development
 
 ## Common Commands
 
 ```bash
+# Development server
+pnpm dev
+
 # Build command
-[command]
+pnpm build
 
 # Test command
-[command]
+pnpm test
 
 # Lint command
-[command]
+pnpm lint
 
-# Check command
-[command]
+# Type check command
+pnpm typecheck
 
-# Development server
-[command]
+# Database migrations
+pnpm db:migrate
+
+# Database seed
+pnpm db:seed
 ```
 
 ## Project Structure
 
 Key directories and their purpose:
 
-- `/src` - [description]
-- `/tests` - [description]
-- [other important directories]
+- `/src/features` - Feature-based modules (trips, itinerary, packing)
+- `/src/shared` - Reusable components, hooks, utilities, and types
+- `/src/db` - Database schema, migrations, and seed data
+- `/src/app` - Remix app structure (routes, root, styles)
+- `/tests` - Test files mirroring source structure
 
 ## Review Process Guidelines
 
 Before submitting any code, ensure the following steps are completed:
 
 1. **Run all lint, check and test commands**
+   ```bash
+   pnpm lint && pnpm typecheck && pnpm test
+   ```
 
 2. **Review outputs and iterate until all issues are resolved**
 
 3. **Assess compliance**:
    For each standard, explicitly state ✅ or ❌ and explain why:
 
-   - Code style and formatting
-   - Naming conventions
-   - Architecture patterns (refer to `ARCHITECTURE.md`)
-   - Error handling
-   - Test coverage
-   - Documentation
+   - Code style and formatting (ESLint + Prettier)
+   - Naming conventions (camelCase functions, PascalCase components)
+   - Architecture patterns (feature-based, custom hooks, functional utils)
+   - Error handling (try-catch with error utilities)
+   - Test coverage (business logic and critical flows)
+   - Documentation (JSDoc for complex functions, README updates)
 
 4. **Self-review checklist**:
-   - [ ] Code follows defined patterns
-   - [ ] No debug/commented code
-   - [ ] Error handling implemented
-   - [ ] Tests written and passing
-   - [ ] Documentation updated
+   - [ ] Code follows feature-based architecture
+   - [ ] All functions have explicit return types
+   - [ ] Error handling implemented with try-catch
+   - [ ] No console.log or debug code
+   - [ ] Tests written for business logic
+   - [ ] CSS Modules used for styling
+   - [ ] TypeScript strict mode compliance
+   - [ ] Conventional commit message format
 
 ## Known Issues & Workarounds
 
-Document any current limitations or workarounds Claude should be aware of.
+- **SQLite Concurrency**: Use WAL mode for better read/write performance
+- **CSS Module Types**: May need to add type declarations for CSS modules
+- **Remix Dev Mode**: Hot reload may occasionally require manual refresh
 
 ## References
 
-Links to relevant external documentation, design docs, or resources.
+- [Remix Documentation](https://remix.run/docs)
+- [Drizzle ORM Documentation](https://orm.drizzle.team/)
+- [Conventional Commits](https://www.conventionalcommits.org/)
+- [FUNCTIONAL.md](./FUNCTIONAL.md) - User stories and requirements
+- [ARCHITECTURE.md](./ARCHITECTURE.md) - Technical architecture and patterns
