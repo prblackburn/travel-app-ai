@@ -13,7 +13,7 @@
     "start": "remix-serve ./build/server/index.js",
     "typecheck": "tsc",
     "db:migrate": "drizzle-kit migrate",
-    "db:seed": "tsx src/db/seed.ts"
+    "db:seed": "tsx src/db/seed.ts && sqlite3 travel-app.db < src/db/migrations/0000_naive_blindfold.sql && sqlite3 travel-app.db < src/db/seed.sql"
   },
   "dependencies": {
     "@remix-run/node": "^2.16.8",

@@ -149,13 +149,16 @@ Before submitting any code, ensure the following steps are completed:
 - **SQLite Concurrency**: Use WAL mode for better read/write performance
 - **CSS Module Types**: May need to add type declarations for CSS modules
 - **Remix Dev Mode**: Hot reload may occasionally require manual refresh
-- **better-sqlite3 Bindings**: Native bindings fail during Drizzle migrations. Always use sqlite3 CLI workaround:
+- **better-sqlite3 Bindings**: Native bindings fail during Drizzle migrations and seed operations. Always use sqlite3 CLI workaround:
   ```bash
   # Generate migration first
   npx drizzle-kit generate
   
   # Apply with sqlite3 CLI instead of pnpm db:migrate
   sqlite3 travel-app.db < src/db/migrations/XXXX_migration_name.sql
+  
+  # Seed data uses TypeScript script + sqlite3 CLI workflow
+  # pnpm db:seed handles: generate SQL → apply migration → insert seed data
   ```
 
 ## References
