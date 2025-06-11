@@ -34,7 +34,7 @@ export function ActivityCard({
           </Button>
           <Form
             method="post"
-            action={`/trips/${activity.tripId}/activities/${activity.id}/delete`}
+            action={`/activity/${activity.id}/delete`}
             style={{ display: 'inline' }}
           >
             <Button

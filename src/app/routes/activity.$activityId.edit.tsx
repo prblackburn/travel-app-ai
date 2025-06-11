@@ -10,25 +10,22 @@ import { Layout } from '~/shared/components/Layout.js';
 import type { LoaderFunctionArgs, ActionFunctionArgs } from '@remix-run/node';
 
 export async function loader({ params }: LoaderFunctionArgs): Promise<Response> {
-  const { tripId, activityId } = params;
+  const { activityId } = params;
 
-  if (!tripId || !activityId) {
-    throw new Response('Trip ID and Activity ID are required', { status: 400 });
+  if (!activityId) {
+    throw new Response('Activity ID is required', { status: 400 });
   }
 
   try {
-    const [trip, activity] = await Promise.all([getTripById(tripId), getActivityById(activityId)]);
-
-    if (!trip) {
-      throw new Response('Trip not found', { status: 404 });
-    }
+    const activity = await getActivityById(activityId);
 
     if (!activity) {
       throw new Response('Activity not found', { status: 404 });
     }
 
-    if (activity.tripId !== tripId) {
-      throw new Response('Activity does not belong to this trip', { status: 400 });
+    const trip = await getTripById(activity.tripId);
+    if (!trip) {
+      throw new Response('Trip not found', { status: 404 });
     }
 
     return json({ trip, activity });
@@ -39,10 +36,10 @@ export async function loader({ params }: LoaderFunctionArgs): Promise<Response> 
 }
 
 export async function action({ request, params }: ActionFunctionArgs): Promise<Response> {
-  const { tripId, activityId } = params;
+  const { activityId } = params;
 
-  if (!tripId || !activityId) {
-    throw new Response('Trip ID and Activity ID are required', { status: 400 });
+  if (!activityId) {
+    throw new Response('Activity ID is required', { status: 400 });
   }
 
   const formData = await request.formData();
@@ -56,8 +53,14 @@ export async function action({ request, params }: ActionFunctionArgs): Promise<R
   };
 
   try {
+    // Get activity first to find the trip
+    const activity = await getActivityById(activityId);
+    if (!activity) {
+      throw new Response('Activity not found', { status: 404 });
+    }
+
     // Get trip to validate date range
-    const trip = await getTripById(tripId);
+    const trip = await getTripById(activity.tripId);
     if (!trip) {
       throw new Response('Trip not found', { status: 404 });
     }
@@ -68,7 +71,7 @@ export async function action({ request, params }: ActionFunctionArgs): Promise<R
     });
 
     await updateActivity(activityId, validatedData);
-    return redirect(`/trips/${tripId}`);
+    return redirect(`/trips/${trip.id}`);
   } catch (error) {
     console.error('Failed to update activity:', error);
     return json(
@@ -83,7 +86,9 @@ export async function action({ request, params }: ActionFunctionArgs): Promise<R
 
 export default function EditActivityPage(): JSX.Element {
   const { trip, activity } = useLoaderData<typeof loader>();
-  const actionData = useActionData<typeof action>() as { errors?: Record<string, string> } | undefined;
+  const actionData = useActionData<typeof action>() as
+    | { errors?: Record<string, string> }
+    | undefined;
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
 

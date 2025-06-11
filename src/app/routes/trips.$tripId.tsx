@@ -41,11 +41,11 @@ export default function TripDetailPage(): JSX.Element {
   const navigate = useNavigate();
 
   const handleEditActivity = (activity: Activity): void => {
-    navigate(`/trips/${trip.id}/activities/${activity.id}/edit`);
+    navigate(`/activity/${activity.id}/edit`);
   };
 
   const handleAddActivity = (): void => {
-    navigate(`/trips/${trip.id}/activities/new`);
+    navigate(`/activity/new?tripId=${trip.id}`);
   };
 
   return (

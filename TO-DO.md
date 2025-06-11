@@ -79,10 +79,12 @@
 - ✅ Trip creation form at `/trips/new` with validation
 - ✅ Trip detail pages at `/trips/$tripId` with **full itinerary display**
 - ✅ Trip edit form at `/trips/$tripId/edit` (bug fixed)
-- ✅ Activity creation at `/trips/$tripId/activities/new` with date validation
-- ✅ Activity editing at `/trips/$tripId/activities/$activityId/edit`
+- ✅ Activity creation at `/activity/new?tripId=:tripId` with date validation
+- ✅ Activity editing at `/activity/:activityId/edit` with working functionality
+- ✅ Activity deletion at `/activity/:activityId/delete` with confirmation
 - ✅ **Complete CRUD workflow** - Trips AND Activities fully functional
 - ✅ **Chronological itinerary** - Activities grouped by date with time sorting
+- ✅ **Consistent flat routing** - All routes working reliably without nesting issues
 - ✅ Responsive layout and professional UI with CSS Modules
 - ✅ **FEATURE-COMPLETE TRAVEL PLANNING APP**
 - 🎯 **Dev server running at http://localhost:5174/**

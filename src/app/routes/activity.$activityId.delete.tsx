@@ -5,23 +5,20 @@ import { deleteActivity, getActivityById } from '~/features/activities/utils/act
 import type { ActionFunctionArgs } from '@remix-run/node';
 
 export async function action({ params }: ActionFunctionArgs): Promise<Response> {
-  const { tripId, activityId } = params;
+  const { activityId } = params;
 
-  if (!tripId || !activityId) {
-    throw new Response('Trip ID and Activity ID are required', { status: 400 });
+  if (!activityId) {
+    throw new Response('Activity ID is required', { status: 400 });
   }
 
   try {
-    // Verify activity exists and belongs to the trip
+    // Get activity first to find the trip ID for redirect
     const activity = await getActivityById(activityId);
     if (!activity) {
       throw new Response('Activity not found', { status: 404 });
     }
 
-    if (activity.tripId !== tripId) {
-      throw new Response('Activity does not belong to this trip', { status: 400 });
-    }
-
+    const tripId = activity.tripId;
     await deleteActivity(activityId);
     return redirect(`/trips/${tripId}`);
   } catch (error) {

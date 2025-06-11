@@ -1,5 +1,5 @@
 import { json, redirect } from '@remix-run/node';
-import { useLoaderData, useActionData, useNavigation } from '@remix-run/react';
+import { useLoaderData, useActionData, useNavigation, useSearchParams } from '@remix-run/react';
 
 import { ActivityForm } from '~/features/activities/components/ActivityForm.js';
 import { createActivity } from '~/features/activities/utils/activityService.js';
@@ -9,8 +9,9 @@ import { Layout } from '~/shared/components/Layout.js';
 
 import type { LoaderFunctionArgs, ActionFunctionArgs } from '@remix-run/node';
 
-export async function loader({ params }: LoaderFunctionArgs): Promise<Response> {
-  const { tripId } = params;
+export async function loader({ request }: LoaderFunctionArgs): Promise<Response> {
+  const url = new URL(request.url);
+  const tripId = url.searchParams.get('tripId');
 
   if (!tripId) {
     throw new Response('Trip ID is required', { status: 400 });
@@ -30,14 +31,13 @@ export async function loader({ params }: LoaderFunctionArgs): Promise<Response> 
   }
 }
 
-export async function action({ request, params }: ActionFunctionArgs): Promise<Response> {
-  const { tripId } = params;
+export async function action({ request }: ActionFunctionArgs): Promise<Response> {
+  const formData = await request.formData();
+  const tripId = formData.get('tripId') as string;
 
   if (!tripId) {
     throw new Response('Trip ID is required', { status: 400 });
   }
-
-  const formData = await request.formData();
 
   const activityData = {
     tripId,
@@ -76,7 +76,9 @@ export async function action({ request, params }: ActionFunctionArgs): Promise<R
 
 export default function NewActivityPage(): JSX.Element {
   const { trip } = useLoaderData<typeof loader>();
-  const actionData = useActionData<typeof action>() as { errors?: Record<string, string> } | undefined;
+  const actionData = useActionData<typeof action>() as
+    | { errors?: Record<string, string> }
+    | undefined;
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
 

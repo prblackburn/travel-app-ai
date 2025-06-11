@@ -169,6 +169,8 @@ Before submitting any code, ensure the following steps are completed:
 - **Button Component**: Uses `any` type for `as` prop to support Remix Link component compatibility
 - **Type Safety**: Description fields use `string | null` to match database schema vs TypeScript `undefined`
 - **Remix Route Naming**: Edit routes require underscore syntax `trips.$tripId_.edit.tsx` for flat routes (not nested)
+- **Remix Deep Nesting Limits**: Avoid 4+ level nested routes - use flat structure instead (e.g., `activity.$activityId.edit.tsx` not `trips.$tripId.activities.$activityId_.edit.tsx`)
+- **Route Consistency**: Maintain consistent patterns across features - all activity routes use `activity.*` flat structure
 - **Form Validation**: Use separate validation functions for create vs update operations for better type safety
 - **Date Utils**: Export alias functions for commonly used operations (`formatDate`, `isValidDate`, etc.)
 - **Feature Modules**: Follow established pattern: `/utils/service.ts`, `/utils/validation.ts`, `/components/`
