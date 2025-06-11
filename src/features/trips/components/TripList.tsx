@@ -44,4 +44,3 @@ export function TripList({ trips, onDeleteTrip }: TripListProps): JSX.Element {
     </div>
   );
 }
-

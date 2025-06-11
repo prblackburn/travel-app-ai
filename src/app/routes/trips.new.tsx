@@ -44,4 +44,3 @@ export default function NewTripPage(): JSX.Element {
     </Layout>
   );
 }
-

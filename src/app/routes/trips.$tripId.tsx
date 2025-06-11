@@ -1,6 +1,8 @@
 import { json } from '@remix-run/node';
-import { useLoaderData, Link } from '@remix-run/react';
+import { useLoaderData, Link, useNavigate } from '@remix-run/react';
 
+import { ItineraryView } from '~/features/activities/components/ItineraryView.js';
+import { getActivitiesByTripId } from '~/features/activities/utils/activityService.js';
 import styles from '~/features/trips/components/TripDetail.module.css';
 import { getTripById } from '~/features/trips/utils/tripService.js';
 import { Button } from '~/shared/components/Button.js';
@@ -8,6 +10,7 @@ import { Layout } from '~/shared/components/Layout.js';
 import { formatDateRange } from '~/shared/utils/formatters.js';
 
 import type { LoaderFunctionArgs } from '@remix-run/node';
+import type { Activity } from '~/shared/types/index.js';
 
 export async function loader({ params }: LoaderFunctionArgs): Promise<Response> {
   const { tripId } = params;
@@ -17,13 +20,16 @@ export async function loader({ params }: LoaderFunctionArgs): Promise<Response> 
   }
 
   try {
-    const trip = await getTripById(tripId);
+    const [trip, activities] = await Promise.all([
+      getTripById(tripId),
+      getActivitiesByTripId(tripId),
+    ]);
 
     if (!trip) {
       throw new Response('Trip not found', { status: 404 });
     }
 
-    return json({ trip });
+    return json({ trip, activities });
   } catch (error) {
     console.error('Failed to load trip:', error);
     throw new Response('Failed to load trip', { status: 500 });
@@ -31,7 +37,16 @@ export async function loader({ params }: LoaderFunctionArgs): Promise<Response> 
 }
 
 export default function TripDetailPage(): JSX.Element {
-  const { trip } = useLoaderData<typeof loader>();
+  const { trip, activities } = useLoaderData<typeof loader>();
+  const navigate = useNavigate();
+
+  const handleEditActivity = (activity: Activity): void => {
+    navigate(`/trips/${trip.id}/activities/${activity.id}/edit`);
+  };
+
+  const handleAddActivity = (): void => {
+    navigate(`/trips/${trip.id}/activities/new`);
+  };
 
   return (
     <Layout title={trip.name}>
@@ -60,16 +75,15 @@ export default function TripDetailPage(): JSX.Element {
         )}
 
         <div className={styles.section}>
-          <h2 className={styles.sectionTitle}>Itinerary</h2>
-          <div className={styles.placeholder}>
-            <p>Activities coming soon...</p>
-            <p className={styles.placeholderText}>
-              This is where you&apos;ll be able to add and manage activities for your trip.
-            </p>
-          </div>
+          <ItineraryView
+            activities={activities}
+            tripId={trip.id}
+            tripDateRange={{ start: trip.startDate, end: trip.endDate }}
+            onEditActivity={handleEditActivity}
+            onAddActivity={handleAddActivity}
+          />
         </div>
       </div>
     </Layout>
   );
 }
-

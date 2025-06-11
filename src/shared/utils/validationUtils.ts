@@ -81,7 +81,12 @@ export function validateCreateTripData(data: CreateTripData): ValidationError[] 
   const destinationLengthError = validateStringLength(data.destination, 'destination', 1, 100);
   if (destinationLengthError) errors.push(destinationLengthError);
 
-  const descriptionLengthError = validateStringLength(data.description ?? undefined, 'description', 0, 1000);
+  const descriptionLengthError = validateStringLength(
+    data.description ?? undefined,
+    'description',
+    0,
+    1000
+  );
   if (descriptionLengthError) errors.push(descriptionLengthError);
 
   if (!isValidDateString(data.startDate)) {
@@ -121,7 +126,12 @@ export function validateUpdateTripData(data: UpdateTripData): ValidationError[] 
   }
 
   if (data.description !== undefined) {
-    const descriptionLengthError = validateStringLength(data.description ?? undefined, 'description', 0, 1000);
+    const descriptionLengthError = validateStringLength(
+      data.description ?? undefined,
+      'description',
+      0,
+      1000
+    );
     if (descriptionLengthError) errors.push(descriptionLengthError);
   }
 
@@ -314,4 +324,3 @@ export function formatValidationErrors(errors: ValidationError[]): Record<string
 
   return formatted;
 }
-

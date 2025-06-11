@@ -44,4 +44,3 @@ export function TripCard({ trip, onDelete }: TripCardProps): JSX.Element {
     </div>
   );
 }
-

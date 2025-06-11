@@ -168,4 +168,3 @@ export function formatCurrency(amount: number, currency = 'USD'): string {
 export function formatPercentage(value: number, decimals = 0): string {
   return `${value.toFixed(decimals)}%`;
 }
-

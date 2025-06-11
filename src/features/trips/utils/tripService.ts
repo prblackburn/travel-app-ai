@@ -4,7 +4,7 @@ import { db } from '~/db/index.js';
 import { trips } from '~/db/schema.js';
 import { handleDatabaseError } from '~/shared/utils/errorUtils.js';
 
-import { validateTripData } from './tripValidation.js';
+import { validateCreateTripData, validateUpdateTripData } from './tripValidation.js';
 
 import type { Trip, CreateTripData, UpdateTripData } from '~/shared/types/index.js';
 
@@ -28,20 +28,20 @@ export async function getTripById(id: string): Promise<Trip | null> {
 
 export async function createTrip(tripData: CreateTripData): Promise<Trip> {
   try {
-    const validatedData = validateTripData(tripData);
-    const result = await db
-      .insert(trips)
-      .values({
-        id: crypto.randomUUID(),
-        name: validatedData.name,
-        destination: validatedData.destination,
-        startDate: validatedData.startDate,
-        endDate: validatedData.endDate,
-        description: validatedData.description,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      })
-      .returning();
+    const validatedData = validateCreateTripData(tripData);
+    
+    const newTrip = {
+      id: crypto.randomUUID(),
+      name: validatedData.name,
+      destination: validatedData.destination,
+      startDate: validatedData.startDate,
+      endDate: validatedData.endDate,
+      description: validatedData.description ?? null,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    const result = await db.insert(trips).values(newTrip).returning();
     return result[0];
   } catch (error) {
     throw handleDatabaseError(error);
@@ -50,19 +50,22 @@ export async function createTrip(tripData: CreateTripData): Promise<Trip> {
 
 export async function updateTrip(id: string, tripData: UpdateTripData): Promise<Trip> {
   try {
-    const validatedData = validateTripData(tripData);
-    const result = await db
-      .update(trips)
-      .set({
-        name: validatedData.name,
-        destination: validatedData.destination,
-        startDate: validatedData.startDate,
-        endDate: validatedData.endDate,
-        description: validatedData.description,
-        updatedAt: new Date().toISOString(),
-      })
-      .where(eq(trips.id, id))
-      .returning();
+    const validatedData = validateUpdateTripData(tripData);
+
+    // Build update object with only provided fields
+    const updateFields: any = {
+      updatedAt: new Date().toISOString(),
+    };
+
+    if (validatedData.name !== undefined) updateFields.name = validatedData.name;
+    if (validatedData.destination !== undefined)
+      updateFields.destination = validatedData.destination;
+    if (validatedData.startDate !== undefined) updateFields.startDate = validatedData.startDate;
+    if (validatedData.endDate !== undefined) updateFields.endDate = validatedData.endDate;
+    if (validatedData.description !== undefined)
+      updateFields.description = validatedData.description;
+
+    const result = await db.update(trips).set(updateFields).where(eq(trips.id, id)).returning();
 
     if (result.length === 0) {
       throw new Error(`Trip with id ${id} not found`);

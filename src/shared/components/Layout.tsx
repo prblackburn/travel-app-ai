@@ -20,5 +20,3 @@ export function Layout({ children, title }: LayoutProps): JSX.Element {
     </div>
   );
 }
-
-

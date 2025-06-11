@@ -207,3 +207,9 @@ export function isFutureDate(dateString: string): boolean {
   if (!isValidDateString(dateString)) return false;
   return compareDates(dateString, getCurrentDate()) > 0;
 }
+
+// Aliases for commonly used functions
+export const isValidDate = isValidDateString;
+export const isValidTime = isValidTimeString;
+export const formatDate = formatDateForDisplay;
+export const formatTime = formatTimeForDisplay;

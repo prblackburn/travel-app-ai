@@ -72,4 +72,3 @@ export default function EditTripPage(): JSX.Element {
     </Layout>
   );
 }
-

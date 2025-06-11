@@ -111,7 +111,7 @@ sqlite3 travel-app.db        # Direct database access
 
 Key directories and their purpose:
 
-- `/src/features` - Feature-based modules (trips, itinerary, packing)
+- `/src/features` - Feature-based modules (trips, activities)
 - `/src/shared` - Reusable components, hooks, utilities, and types
   - `/utils` - Utility functions (dateUtils, errorUtils, formatters, validationUtils)
   - `/types` - TypeScript type definitions and interfaces
@@ -168,6 +168,10 @@ Before submitting any code, ensure the following steps are completed:
 - **Stack Validation**: Use /debug route to verify database connection and data integrity
 - **Button Component**: Uses `any` type for `as` prop to support Remix Link component compatibility
 - **Type Safety**: Description fields use `string | null` to match database schema vs TypeScript `undefined`
+- **Remix Route Naming**: Edit routes require underscore syntax `trips.$tripId_.edit.tsx` for flat routes (not nested)
+- **Form Validation**: Use separate validation functions for create vs update operations for better type safety
+- **Date Utils**: Export alias functions for commonly used operations (`formatDate`, `isValidDate`, etc.)
+- **Feature Modules**: Follow established pattern: `/utils/service.ts`, `/utils/validation.ts`, `/components/`
 
 ## References
 

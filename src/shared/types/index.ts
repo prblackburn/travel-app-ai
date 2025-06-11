@@ -173,4 +173,3 @@ export interface ActivityFormProps {
   isSubmitting?: boolean;
   errors?: ValidationError[];
 }
-
